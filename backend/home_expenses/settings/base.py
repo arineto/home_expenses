@@ -22,7 +22,7 @@ ADMINS = (("Admin", "arineto30@gmail.com"),)
 
 AUTH_USER_MODEL = "users.User"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["my-home-expenses.herokuapp.com"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
