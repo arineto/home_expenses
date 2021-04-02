@@ -1,5 +1,7 @@
 from django.contrib import admin
 
+from rangefilter.filter import DateTimeRangeFilter
+
 from .models import Category, Expense
 
 
@@ -11,8 +13,8 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ExpenseAdmin(admin.ModelAdmin):
     list_display = ("description", "value", "user", "category", "date")
-    search_fields = ("description", "value", "user__email", "category__name")
-    list_filter = ("user", "category")
+    search_fields = ("description", "value")
+    list_filter = (("date", DateTimeRangeFilter), "user__email", "category")
     ordering = ("-date",)
 
 

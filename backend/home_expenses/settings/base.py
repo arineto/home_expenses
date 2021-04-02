@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "webpack_loader",
     "import_export",
     "rest_framework",
+    "rangefilter",
     "common",
     "users",
     "expenses",

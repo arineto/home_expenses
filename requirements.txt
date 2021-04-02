@@ -32,13 +32,15 @@ click==7.1.2
     #   click-didyoumean
     #   click-plugins
     #   click-repl
-decorator==4.4.2
+decorator==5.0.2
     # via ipython
 defusedxml==0.7.1
     # via odfpy
 diff-match-patch==20200713
     # via django-import-export
 dj-database-url==0.5.0
+    # via -r requirements.in
+django-admin-rangefilter==0.7.0
     # via -r requirements.in
 django-import-export==2.5.0
     # via -r requirements.in

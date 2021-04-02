@@ -21,4 +21,4 @@ class Expense(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.name} - {self.date.strformat('%b %d, %Y %H:%M')}"
+        return f"{self.description} - {self.date.strftime('%b %d, %Y %H:%M')}"
