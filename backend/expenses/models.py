@@ -20,5 +20,7 @@ class Expense(models.Model):
 
     date = models.DateTimeField(auto_now_add=True)
 
+    is_settled = models.BooleanField(default=False)
+
     def __str__(self):
         return f"{self.description} - {self.date.strftime('%b %d, %Y %H:%M')}"

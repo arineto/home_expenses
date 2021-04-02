@@ -11,11 +11,16 @@ class CategoryAdmin(admin.ModelAdmin):
     ordering = ("name",)
 
 
+def settle_up(_, request, queryset):
+    queryset.update(is_settled=True)
+
+
 class ExpenseAdmin(admin.ModelAdmin):
-    list_display = ("description", "value", "user", "category", "date")
+    list_display = ("description", "value", "is_settled", "user", "category", "date")
     search_fields = ("description", "value")
-    list_filter = (("date", DateTimeRangeFilter), "user__email", "category")
+    list_filter = (("date", DateTimeRangeFilter), "is_settled", "user__email", "category")
     ordering = ("-date",)
+    actions = [settle_up]
 
 
 admin.site.register(Category, CategoryAdmin)
