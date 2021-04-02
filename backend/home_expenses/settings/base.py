@@ -22,7 +22,7 @@ ADMINS = (("Admin", "arineto30@gmail.com"),)
 
 AUTH_USER_MODEL = "users.User"
 
-ALLOWED_HOSTS = ["my-home-expenses.herokuapp.com"]
+ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "common",
     "users",
+    "expenses",
 ]
 
 MIDDLEWARE = [
