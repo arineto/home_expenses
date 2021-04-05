@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "common",
     "users",
     "expenses",
+    "api_v1",
 ]
 
 MIDDLEWARE = [

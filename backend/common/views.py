@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
 
 from rest_framework import status, viewsets
@@ -6,7 +7,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 
-class IndexView(generic.TemplateView):
+class IndexView(LoginRequiredMixin, generic.TemplateView):
     template_name = "common/index.html"
 
 

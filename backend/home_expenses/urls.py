@@ -16,6 +16,7 @@ for route in routes:
 
 urlpatterns = [
     path("", include("common.urls"), name="common"),
+    path("api-v1/", include("api_v1.urls"), name="api_v1"),
     path("admin/", admin.site.urls, name="admin"),
     path("jsreverse/", django_js_reverse.views.urls_js, name="js_reverse"),
     path("api/", include(router.urls), name="api"),
