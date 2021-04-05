@@ -1,40 +1,63 @@
-import React, { useState, useEffect } from 'react';
-import Button from 'react-bootstrap/Button';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import axios from 'axios';
 
-import DjangoImgSrc from '../../assets/images/django-logo-negative.png';
-import { creators } from '../store/rest_check';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
-const Home = () => {
-  const dispatch = useDispatch();
-  const restCheck = useSelector((state) => state.restCheck);
-  useEffect(() => {
-    const action = creators.fetchRestCheck();
-    dispatch(action);
-  }, [dispatch]);
+import Table from './table';
+import PieChart from './pie_chart';
+import BarChart from './bar_chart';
+import { Pie } from 'recharts';
 
-  const [showBugComponent, setShowBugComponent] = useState(false);
+class Home extends React.Component {
+  state = {
+    expenses: [],
+    loading: true
+  }
 
-  return (
-    <>
-      <div id="django-background">
-        If you are seeing the green Django logo on a white background and this text color is
-        #092e20, frontend static files serving is working
-      </div>
-      <div id="django-logo-wrapper">
-        <div>
-          Below this text, you should see an img tag with the white Django logo on a green
-          background
-        </div>
-        <img alt="Django Negative Logo" src={DjangoImgSrc} />
-      </div>
-      <div>{restCheck.result}</div>
-      <Button variant="outline-dark" onClick={() => setShowBugComponent(true)}>
-        Click to test if Sentry is capturing frontend errors! (Should only work in Production)
-      </Button>
-      {showBugComponent && showBugComponent.field.notexist}
-    </>
-  );
-};
+  componentDidMount = () => {
+    this.fetchExpenses();
+  }
+
+  fetchExpenses = () => {
+    axios.get('/api-v1/expenses/').then((resp) => {
+      this.setState({
+        loading: false,
+        expenses: resp.data.results,
+      });
+    });
+  }
+
+  render = () => {
+    const { loading, expenses } = this.state;
+
+    if (loading) return (
+      <Container maxWidth="lg">
+        <Grid container spacing={2}>
+          <Grid item xs={12} style={{textAlign: "center", marginTop: "50px"}}>
+            <CircularProgress />
+          </Grid>
+        </Grid>
+      </Container>
+    );
+
+    return (
+      <Container maxWidth="lg">
+        <Grid container spacing={2}>
+          <Grid item xs={4}>
+            <PieChart expenses={expenses} />
+          </Grid>
+          <Grid item xs={8}>
+            <BarChart expenses={expenses} />
+          </Grid>
+          <Grid item xs={12}>
+            <Table expenses={expenses} />
+          </Grid>
+        </Grid>
+      </Container>
+    )
+  }
+}
 
 export default Home;
