@@ -2,7 +2,7 @@ import React from 'react';
 import { forEach, has, toNumber, map, keys } from 'lodash';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
-const COLORS = ['#8884d8', '#82ca9d'];
+const COLORS = ['#0088FE', '#FF8042'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
@@ -31,7 +31,7 @@ const PieChartComponent = ({ expenses }) => {
   }));
 
   return (
-    <div style={{height: "250px", marginTop: "50px"}}>
+    <div style={{height: "250px", marginTop: "65px"}}>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart width="100%" height="100%">
           <Pie
@@ -39,7 +39,7 @@ const PieChartComponent = ({ expenses }) => {
             data={chartData}
             cx="50%"
             cy="50%"
-            outerRadius={100}
+            outerRadius={120}
             fill="#8884d8"
             labelLine={false}
             label={renderCustomizedLabel}

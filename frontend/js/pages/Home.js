@@ -45,10 +45,10 @@ class Home extends React.Component {
     return (
       <Container maxWidth="lg">
         <Grid container spacing={2}>
-          <Grid item xs={4}>
+          <Grid item xs={12} lg={3}>
             <PieChart expenses={expenses} />
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={12} lg={9}>
             <BarChart expenses={expenses} />
           </Grid>
           <Grid item xs={12}>
