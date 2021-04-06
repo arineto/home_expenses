@@ -33,7 +33,7 @@ const BarChartComponent = ({ expenses }) => {
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
-          <Bar dataKey="value" fill="#00C49F" />
+          <Bar dataKey="value" fill="#98c1d9" />
         </BarChart>
       </ResponsiveContainer>
     </div>

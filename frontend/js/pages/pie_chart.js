@@ -2,7 +2,7 @@ import React from 'react';
 import { forEach, has, toNumber, map, keys } from 'lodash';
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
-const COLORS = ['#0088FE', '#FF8042'];
+const COLORS = ['#ee6c4d', '#3d5a80'];
 
 const RADIAN = Math.PI / 180;
 const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
