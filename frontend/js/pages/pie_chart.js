@@ -1,6 +1,6 @@
 import React from 'react';
 import { forEach, has, toNumber, map, keys } from 'lodash';
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import { Legend, PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
 const COLORS = ['#ee6c4d', '#3d5a80'];
 
@@ -12,7 +12,7 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
   return (
     <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-      {`${(percent * 100).toFixed(0)}%`}
+      {`${(percent * 100).toFixed(2)}%`}
     </text>
   );
 };
@@ -27,11 +27,12 @@ const PieChartComponent = ({ expenses }) => {
   });
 
   const chartData = map(keys(chartDataByUser), email => ({
-    name: email, value: chartDataByUser[email]
+    name: email,
+    value: chartDataByUser[email],
   }));
 
   return (
-    <div style={{height: "250px", marginTop: "65px"}}>
+    <div style={{ height: '350px', marginTop: '-15px' }}>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart width="100%" height="100%">
           <Pie
@@ -49,6 +50,7 @@ const PieChartComponent = ({ expenses }) => {
             ))}
           </Pie>
           <Tooltip />
+          <Legend />
         </PieChart>
       </ResponsiveContainer>
     </div>

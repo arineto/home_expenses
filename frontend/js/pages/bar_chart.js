@@ -16,17 +16,14 @@ const BarChartComponent = ({ expenses }) => {
   })), ['value']));
 
   return (
-    <div style={{height: "400px"}}>
+    <div style={{height: "335px"}}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           width="100%"
-          height={400}
           data={chartData}
           margin={{
-            top: 50,
-            right: 30,
-            left: 20,
-            bottom: 50,
+            top: 40,
+            right: 40,
           }}
         >
           <CartesianGrid strokeDasharray="3 3" />
