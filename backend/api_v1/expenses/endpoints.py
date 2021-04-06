@@ -8,4 +8,8 @@ class ExpenseListAPIView(generics.ListAPIView):
     serializer_class = ExpenseSerializer
 
     def get_queryset(self):
-        return Expense.objects.select_related("user", "category").filter(is_settled=False)
+        return (
+            Expense.objects.select_related("user", "category")
+            .filter(is_settled=False)
+            .order_by("-date")
+        )
