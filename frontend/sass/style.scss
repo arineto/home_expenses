@@ -32,12 +32,3 @@ body {
   position: relative;
   z-index: 1;
 }
-
-html:after {
-  content: ' ';
-  border-bottom: 400px solid #3d5a80;
-  border-left: 100vw solid transparent;
-  width: 0;
-  position: absolute;
-  bottom: 0;
-}

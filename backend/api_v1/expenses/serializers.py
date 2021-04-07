@@ -1,13 +1,7 @@
 from rest_framework import serializers
 
+from api_v1.users.serializers import UserSerializer
 from expenses.models import Category, Expense
-from users.models import User
-
-
-class SimpleUserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ["id", "email"]
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -17,7 +11,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ExpenseSerializer(serializers.ModelSerializer):
-    user = SimpleUserSerializer(read_only=True)
+    user = UserSerializer(read_only=True)
     category = CategorySerializer(read_only=True)
 
     date_str = serializers.SerializerMethodField()
