@@ -3,14 +3,17 @@ import CardContent from '@material-ui/core/CardContent';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
+import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
+import FilterListIcon from '@material-ui/icons/FilterList';
 import axios from 'axios';
-import React from 'react';
+import { map, isEqual } from 'lodash';
 import moment from 'moment-timezone';
-import { map } from 'lodash';
 import { stringify } from 'querystring';
+import React from 'react';
 
 import BarChart from './bar_chart';
+import Filters from './filters';
 import PieChart from './pie_chart';
 import Table from './table';
 
@@ -18,6 +21,9 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      open: false,
+      anchorEl: null,
+
       expenses: [],
       loadingExpenses: true,
 
@@ -30,10 +36,15 @@ class Home extends React.Component {
       filters: {
         user_ids: [],
         category_ids: [],
-        date_from: moment().tz('America/Toronto').startOf('month').format(),
-        date_to: moment().tz('America/Toronto').format(),
+        date_from: moment()
+          .tz('America/Toronto')
+          .startOf('month')
+          .format(),
+        date_to: moment()
+          .tz('America/Toronto')
+          .format(),
         is_settled: false,
-      }
+      },
     };
   }
 
@@ -43,11 +54,11 @@ class Home extends React.Component {
   };
 
   componentDidUpdate = () => {
-    const { loadingUsers, loadingCategories, loadingExpenses } = this.state;
+    const { loadingUsers, loadingCategories, loadingExpenses, filters } = this.state;
     if (!loadingUsers && !loadingCategories && loadingExpenses) {
-      this.fetchExpenses();
+      this.fetchExpenses(filters);
     }
-  }
+  };
 
   fetchUsers = () => {
     axios.get('/api-v1/users/').then((resp) => {
@@ -77,8 +88,7 @@ class Home extends React.Component {
     });
   };
 
-  fetchExpenses = () => {
-    const { filters } = this.state;
+  fetchExpenses = (filters) => {
     const url = `/api-v1/expenses/?${stringify(filters)}`;
     axios.get(url).then((resp) => {
       this.setState({
@@ -89,6 +99,15 @@ class Home extends React.Component {
     });
   };
 
+  handleOpen = (event) => this.setState({ open: true, anchorEl: event.currentTarget });
+
+  handleClose = () => this.setState({ open: false, anchorEl: null });
+
+  setFilters = (filters) => {
+    this.setState({ filters });
+    this.fetchExpenses(filters);
+  };
+
   render = () => {
     const {
       expenses,
@@ -97,11 +116,10 @@ class Home extends React.Component {
       loadingUsers,
       categories,
       loadingCategories,
+      filters,
+      open,
+      anchorEl,
     } = this.state;
-
-    console.log(users)
-    console.log(categories)
-
     const isLoading = loadingExpenses || loadingUsers || loadingCategories;
 
     if (isLoading)
@@ -114,11 +132,15 @@ class Home extends React.Component {
           </Grid>
         </Container>
       );
-
     return (
       <Container maxWidth="lg">
         <Typography gutterBottom style={{ margin: '30px 0' }} variant="h5">
-          Dashboard
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            Dashboard
+            <span onClick={this.handleOpen} style={{ cursor: 'pointer' }}>
+              <FilterListIcon />
+            </span>
+          </div>
         </Typography>
         <Grid container spacing={2}>
           <Grid item lg={3} xs={12}>
@@ -139,6 +161,26 @@ class Home extends React.Component {
             <Table expenses={expenses} />
           </Grid>
         </Grid>
+        <Popover
+          open={open}
+          anchorEl={anchorEl}
+          onClose={this.handleClose}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'right',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'right',
+          }}
+        >
+          <Filters
+            categories={categories}
+            users={users}
+            filters={filters}
+            setFilters={this.setFilters}
+          />
+        </Popover>
       </Container>
     );
   };
