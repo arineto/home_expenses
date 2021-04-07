@@ -16,7 +16,7 @@ const BarChartComponent = ({ expenses }) => {
   })), ['value']));
 
   return (
-    <div style={{height: "335px"}}>
+    <div style={{height: "385px"}}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           width="100%"
