@@ -7,7 +7,7 @@ import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import axios from 'axios';
-import { map, isEqual } from 'lodash';
+import { map } from 'lodash';
 import moment from 'moment-timezone';
 import { stringify } from 'querystring';
 import React from 'react';
@@ -42,6 +42,7 @@ class Home extends React.Component {
           .format(),
         date_to: moment()
           .tz('America/Toronto')
+          .endOf('day')
           .format(),
         is_settled: false,
       },
@@ -136,7 +137,8 @@ class Home extends React.Component {
       <Container maxWidth="lg">
         <Typography gutterBottom style={{ margin: '30px 0' }} variant="h5">
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            Dashboard
+            Dashboard ({moment(filters.date_from).format('MMM Do, YYYY')} -{' '}
+            {moment(filters.date_to).format('MMM Do, YYYY')})
             <span onClick={this.handleOpen} style={{ cursor: 'pointer' }}>
               <FilterListIcon />
             </span>

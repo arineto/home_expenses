@@ -1,6 +1,19 @@
+import DateFnsUtils from '@date-io/moment';
 import Checkbox from '@material-ui/core/Checkbox';
 import { map, includes, pull } from 'lodash';
+import { KeyboardDatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
+import moment from 'moment-timezone';
 import React from 'react';
+import styled from 'styled-components';
+
+const StyledPicker = styled(KeyboardDatePicker)`
+  &&& input {
+    font-size: 13px;
+  }
+  &&& svg {
+    font-size: 18px;
+  }
+`;
 
 const FiltersComponent = ({ filters, setFilters, users, categories }) => {
   const setIsSettled = () => {
@@ -33,11 +46,66 @@ const FiltersComponent = ({ filters, setFilters, users, categories }) => {
       category_ids: categoryIds,
     });
   }
+  const setDateFrom = (value) => {
+    setFilters({
+      ...filters,
+      date_from: value.startOf('day').format(),
+    });
+  }
+  const setDateTo = (value) => {
+    setFilters({
+      ...filters,
+      date_to: value.endOf('day').format(),
+    });
+  }
   return (
     <div style={{ padding: '12px 16px', display: 'flex', flexDirection: 'column' }}>
       <p style={{ fontSize: '14px' }}>Filters</p>
       <div style={{ marginBottom: '10px', fontSize: '13px' }}>
-        <p style={{ fontWeight: '10px', borderBottom: '1px solid rgb(61, 90, 128)' }}>Date</p>
+        <p
+          style={{
+            fontWeight: '10px',
+            borderBottom: '1px solid rgb(61, 90, 128)',
+            marginBottom: '0',
+          }}
+        >
+          Date
+        </p>
+        <div
+          style={{
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <MuiPickersUtilsProvider utils={DateFnsUtils}>
+            <StyledPicker
+              disableToolbar
+              variant="inline"
+              format="DD/MM/YYYY"
+              margin="normal"
+              label="From"
+              value={moment(filters.date_from)}
+              onChange={setDateFrom}
+              autoOk
+              disableFuture
+            />
+            <StyledPicker
+              disableToolbar
+              variant="inline"
+              format="DD/MM/YYYY"
+              margin="normal"
+              label="To"
+              value={moment(filters.date_to)}
+              onChange={setDateTo}
+              autoOk
+              disableFuture
+              style={{fontSize: '13px'}}
+            />
+          </MuiPickersUtilsProvider>
+        </div>
       </div>
       <div style={{ marginBottom: '10px', fontSize: '13px' }}>
         <p style={{ fontWeight: '10px', borderBottom: '1px solid rgb(61, 90, 128)' }}>Users</p>
