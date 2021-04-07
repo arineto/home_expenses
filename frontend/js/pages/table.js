@@ -28,6 +28,7 @@ const TableComponent = ({ expenses }) => (
           <TableCell>User</TableCell>
           <TableCell>Category</TableCell>
           <TableCell>Date</TableCell>
+          <TableCell>Is Settled</TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -38,6 +39,7 @@ const TableComponent = ({ expenses }) => (
             <TableCell>{row.user.email}</TableCell>
             <TableCell>{row.category.name}</TableCell>
             <TableCell>{row.date_str}</TableCell>
+            <TableCell>{row.is_settled ? 'True' : 'False'}</TableCell>
           </StyledTableRow>
         ))}
       </TableBody>

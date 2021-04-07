@@ -6,6 +6,9 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import axios from 'axios';
 import React from 'react';
+import moment from 'moment-timezone';
+import { map } from 'lodash';
+import { stringify } from 'querystring';
 
 import BarChart from './bar_chart';
 import PieChart from './pie_chart';
@@ -16,28 +19,92 @@ class Home extends React.Component {
     super(props);
     this.state = {
       expenses: [],
-      loading: true,
+      loadingExpenses: true,
+
+      users: [],
+      loadingUsers: true,
+
+      categories: [],
+      loadingCategories: true,
+
+      filters: {
+        user_ids: [],
+        category_ids: [],
+        date_from: moment().tz('America/Toronto').startOf('month').format(),
+        date_to: moment().tz('America/Toronto').format(),
+        is_settled: false,
+      }
     };
   }
 
   componentDidMount = () => {
-    this.fetchExpenses();
+    this.fetchUsers();
+    this.fetchCategories();
+  };
+
+  componentDidUpdate = () => {
+    const { loadingUsers, loadingCategories, loadingExpenses } = this.state;
+    if (!loadingUsers && !loadingCategories && loadingExpenses) {
+      this.fetchExpenses();
+    }
+  }
+
+  fetchUsers = () => {
+    axios.get('/api-v1/users/').then((resp) => {
+      this.setState({
+        users: resp.data.results,
+        loadingUsers: false,
+        filters: {
+          ...this.state.filters,
+          user_ids: map(resp.data.results, 'id'),
+        },
+      });
+      return null;
+    });
+  };
+
+  fetchCategories = () => {
+    axios.get('/api-v1/expenses/categories/').then((resp) => {
+      this.setState({
+        categories: resp.data.results,
+        loadingCategories: false,
+        filters: {
+          ...this.state.filters,
+          category_ids: map(resp.data.results, 'id'),
+        },
+      });
+      return null;
+    });
   };
 
   fetchExpenses = () => {
-    axios.get('/api-v1/expenses/').then((resp) => {
+    const { filters } = this.state;
+    const url = `/api-v1/expenses/?${stringify(filters)}`;
+    axios.get(url).then((resp) => {
       this.setState({
-        loading: false,
         expenses: resp.data.results,
+        loadingExpenses: false,
       });
       return null;
     });
   };
 
   render = () => {
-    const { loading, expenses } = this.state;
+    const {
+      expenses,
+      loadingExpenses,
+      users,
+      loadingUsers,
+      categories,
+      loadingCategories,
+    } = this.state;
 
-    if (loading)
+    console.log(users)
+    console.log(categories)
+
+    const isLoading = loadingExpenses || loadingUsers || loadingCategories;
+
+    if (isLoading)
       return (
         <Container maxWidth="lg">
           <Grid container spacing={2}>

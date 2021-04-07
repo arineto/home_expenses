@@ -8,6 +8,10 @@ amqp==5.0.6
     # via kombu
 appnope==0.1.2
     # via ipython
+arrow==1.0.3
+    # via -r requirements.in
+asgiref==3.3.4
+    # via django
 backcall==0.2.0
     # via ipython
 billiard==3.6.4.0
@@ -32,7 +36,7 @@ click==7.1.2
     #   click-didyoumean
     #   click-plugins
     #   click-repl
-decorator==5.0.2
+decorator==5.0.5
     # via ipython
 defusedxml==0.7.1
     # via odfpy
@@ -41,6 +45,8 @@ diff-match-patch==20200713
 dj-database-url==0.5.0
     # via -r requirements.in
 django-admin-rangefilter==0.7.0
+    # via -r requirements.in
+django-filter==2.4.0
     # via -r requirements.in
 django-import-export==2.5.0
     # via -r requirements.in
@@ -52,9 +58,10 @@ django-model-utils==4.1.1
     # via -r requirements.in
 django-webpack-loader==0.7.0
     # via -r requirements.in
-django==2.2.19
+django==3.2
     # via
     #   -r requirements.in
+    #   django-filter
     #   django-import-export
     #   django-js-reverse
     #   django-log-request-id
@@ -100,6 +107,8 @@ pycparser==2.20
     # via cffi
 pygments==2.8.1
     # via ipython
+python-dateutil==2.8.1
+    # via arrow
 python-decouple==3.4
     # via -r requirements.in
 pytz==2021.1
@@ -113,7 +122,9 @@ redis==3.5.3
 sentry-sdk==1.0.0
     # via -r requirements.in
 six==1.15.0
-    # via click-repl
+    # via
+    #   click-repl
+    #   python-dateutil
 sqlparse==0.4.1
     # via django
 tablib[html,ods,xls,xlsx,yaml]==3.0.0

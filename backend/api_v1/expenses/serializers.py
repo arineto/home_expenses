@@ -18,7 +18,16 @@ class ExpenseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Expense
-        fields = ["id", "user", "category", "description", "value", "date", "date_str"]
+        fields = [
+            "id",
+            "user",
+            "category",
+            "description",
+            "value",
+            "date",
+            "date_str",
+            "is_settled",
+        ]
 
     def get_date_str(self, obj):
         return obj.date.strftime("%b %d, %Y %H:%M")
