@@ -1,5 +1,5 @@
 arrow
-django
+django<3
 celery[redis]
 django-admin-rangefilter
 django-filter
