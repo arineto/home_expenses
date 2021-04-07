@@ -14,15 +14,14 @@ class ExpenseListAPIView(generics.ListAPIView):
     serializer_class = ExpenseSerializer
 
     def get_queryset(self):
-        queryset = Expense.objects.select_related("user", "category").order_by("-date")
 
-        user_ids = self.request.query_params.getlist("user_ids")
-        if user_ids:
-            queryset = queryset.filter(user_id__in=user_ids)
-
-        category_ids = self.request.query_params.getlist("category_ids")
-        if category_ids:
-            queryset = queryset.filter(category_id__in=category_ids)
+        user_ids = self.request.query_params.getlist("user_ids", [])
+        category_ids = self.request.query_params.getlist("category_ids", [])
+        queryset = (
+            Expense.objects.select_related("user", "category")
+            .filter(user_id__in=user_ids, category_id__in=category_ids)
+            .order_by("-date")
+        )
 
         date_from = self.request.query_params.get("date_from")
         if date_from:
@@ -34,6 +33,6 @@ class ExpenseListAPIView(generics.ListAPIView):
 
         is_settled = self.request.query_params.get("is_settled")
         if is_settled:
-            queryset = queryset.filter(is_settled=True if is_settled == "true" else False)
+            queryset = queryset.filter(is_settled=is_settled == "true")
 
         return queryset
